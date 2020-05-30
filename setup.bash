@@ -4,6 +4,7 @@ echo "$REF"
 sudo pip install wstool
 sudo apt-get update
 cd ..
+export REF2=$(pwd)
 catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release -DGTSAM_USE_SYSTEM_EIGEN=ON
 catkin config --merge-devel
 git clone https://github.com/MIT-SPARK/Kimera-VIO-ROS.git
@@ -32,3 +33,6 @@ git checkout develop
 cd ..
 catkin build opengv_catkin 
 catkin build -DCMAKE_BUILD_TYPE=Release -DGTSAM_USE_SYSTEM_EIGEN=ON
+
+cp $REF/launch/* $REF2/Kimera-VIO-ROS/launch
+cp -r $REF/params/Pensa $REF2/Kimera-VIO/params
