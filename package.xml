@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>Gazebo_VIO</name>
+  <version>0.0.1</version>
+  <description>Kimera-VIO-ROS install for Pensa dev</description>
+
+  <maintainer email="shayer@pensasystems.com">Shayer</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>catkin_simple</buildtool_depend>
+
+  <!-- KimeraVIO needs opencv >= 3.3.1, yet ROS uses 3.2.0.
+       Hacky way of avoiding error in KimeraVIO by linking to 3.4.2-->
+  <depend>eigen_catkin</depend>
+  <depend>kimera_vio</depend>
+
+  <depend>roscpp</depend>
+  <depend>rospy</depend>
+  
+</package>
