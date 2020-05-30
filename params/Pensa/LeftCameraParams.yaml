@@ -1,0 +1,20 @@
+%YAML:1.0
+# General sensor definitions.
+camera_id: left_cam
+
+# Sensor extrinsics wrt. the body-frame.
+T_BS:
+  cols: 4
+  rows: 4
+  data: [0.00799786,  -0.00200796,     0.999966, 0, 
+        -0.999966,   0.00199196,   0.00800186,  0.032,
+        -0.00200796,    -0.999996,  -0.00199196, 0,
+         0.0, 0.0, 0.0, 1.0]
+
+# Camera specific definitions.
+rate_hz: 20
+resolution: [848, 800]
+camera_model: fisheye
+intrinsics: [63.367, 63.367, 424.5, 400.5] #fu, fv, cu, cv
+distortion_model: radial-tangential
+distortion_coefficients: [0, 0, 0, 0]

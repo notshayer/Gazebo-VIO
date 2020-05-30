@@ -1,0 +1,69 @@
+<launch>
+    <!-- General Kimera-VIO-ROS launch file. Change arguments in your own launch
+    file and include this one to launch KimeraVIO on the dataset of your choice -->
+    <arg name="dataset_name" value="Pensa"/>
+    <!-- If False, parses the given rosbag, otw it plays the rosbage -->
+    <arg name="online" value="true" />
+    <!-- !!!! VIT !!!! This should be true when running online with a rosbag publishing clock,
+    but false when parsing rosbag? Needs rosbag to be publishing clock -->
+    <arg name="should_use_sim_time" value="true"/>
+    <param name="use_sim_time" value="$(arg should_use_sim_time)"/>
+    <arg name="rosbag_path" unless="$(arg online)"/>
+  
+    <!-- Use CameraInfo topics to get parameters, instead of yaml files -->
+    <arg name="use_online_cam_params" value="false"/>
+  
+    <!-- If true, SparkVio will log output of all modules to the
+         'log_output_path' location. -->
+    <arg name="log_output" value="false"/>
+    <arg name="log_output_path"
+         value="$(find kimera_vio_ros)/output_logs/"/>
+    <!-- If true, log ground-truth poses to a csv file using the
+         gt_logger_node, and processing data from the gt_topic rostopic -->
+    <arg name="log_gt_data" value="false"/>
+    <arg name="gt_topic" value="gt"/>
+  
+    <!-- If true, SparkVio will enable the LoopClosureDetector module. -->
+    <arg name="use_lcd" value="false"/>
+  
+    <!-- Parameters -->
+    <!-- each dataset has its own set of parameter files -->
+    <!-- the parameters are set in param folder, ordered by the dataset's name -->
+    <arg name="params_folder" value="$(find kimera_vio)/params/$(arg dataset_name)"/>
+  
+    <!-- Specify the absolute path to the vocabulary file. -->
+    <!-- This is usually in the VIO directory (VIO/vocabulary/ORBvoc.yml). -->
+    <arg name="path_to_vocab" value="$(find kimera_vio)/vocabulary/ORBvoc.yml"/>
+  
+    <!-- Subscribed Topics -->
+    <arg name="left_cam_topic"                    value="/camera/fisheye1/image_raw"/>
+    <arg name="left_cam_info_topic"               value="/camera/fisheye1/camera_info"/>
+    <arg name="right_cam_topic"                   value="/camera/fisheye2/image_raw"/>
+    <arg name="right_cam_info_topic"              value="/camera/fisheye2/camera_info"/>
+    <arg name="imu_topic"                         value="/mavros/imu/data"/>
+    <!-- Empty string ("") means no ground-truth available. Used for init if
+     requested to do ground-truth initialization. -->
+    <!-- <arg name="odometry_ground_truth_topic"       value="RealSense/odom"/> -->
+  
+    <!-- Frame IDs -->
+    <arg name="world_frame_id"     value="world"/>
+    <arg name="base_link_frame_id" value="base_link"/>
+    <arg name="map_frame_id"       value="map"/>
+    <arg name="left_cam_frame_id"  value="left_cam"/>
+    <arg name="right_cam_frame_id" value="right_cam"/>
+  
+    <!-- General parameters -->
+    <arg name="verbosity"    value="1" />
+    <!-- Publish pipeline output to ROS. -->
+    <!-- Note that this is duplicated from the flags file -->
+    <arg name="visualize"    value="true" />
+    <!-- Type of visualization: 0: 2d3d_mesh, 1: pointcloud, 2: none -->
+    <arg name="viz_type"     value="0" />
+  
+    <!-- Only here for convenience -->
+    <arg name="run_stereo_dense"     value="false"/>
+
+    <include file="$(find kimera_vio_ros)/launch/kimera_vio_ros.launch"
+    pass_all_args="true"/>
+
+</launch>
