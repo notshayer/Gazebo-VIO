@@ -13,9 +13,10 @@ wstool merge Kimera-VIO-ROS/install/kimera_vio_ros_https.rosinstall
 wstool update
 
 mkdir eig_build
-cd eig_build
-git clone https://gitlab.com/libeigen/eigen.git ~
-cmake ~/eigen 
+cd ~
+git clone https://gitlab.com/libeigen/eigen.git
+cd $REF2/eig_build
+cmake ~/eigen
 sudo make install
 cd "$REF"
 cd ..
@@ -31,8 +32,9 @@ cd ..
 cd gtsam
 git checkout develop
 cd ..
+catkin config --link-devel
 catkin build opengv_catkin 
-catkin build -DCMAKE_BUILD_TYPE=Release -DGTSAM_USE_SYSTEM_EIGEN=ON
+catkin build -DCMAKE_BUILD_TYPE=Release -DGTSAM_USE_SYSTEM_EIGEN=ON kimera_vio_ros
 
 cp $REF/launch/* $REF2/Kimera-VIO-ROS/launch
 cp -r $REF/params/Pensa $REF2/Kimera-VIO/params
